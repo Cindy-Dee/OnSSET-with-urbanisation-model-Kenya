@@ -1,8 +1,8 @@
 %% Prepare the data.
-urbanisation = readtable('urbanisationmarch.csv');
+urbanisation = readtable('urbanisationmarch.csv'); % Define fine path
 Ybool = urbanisation.IsUrban; % Extract the Urban column (Logical array)
 
-%% Extract Predictors
+%% Extract Predictors, adjust variable names based on csv file
 X_all = urbanisation(:, ["Distance_grid","Electrified_Population","Distance_to_Urban","Elevation","Major_Road_Dist","Population_density","RiverLakes_Dist"]);
 X = table2array(X_all); % Convert to a pure numeric matrix
 
@@ -54,7 +54,7 @@ print(gcf, 'correlation_chart.tiff', '-dtiff', '-r600');
 %% Collinearity diagnostics
 [sValue,condIdx,VarDecomp] = collintest(X_clean, Plot="on");
 
-%% Step 4. Check class imbalance
+%% Check class imbalance
 disp('Class distribution before balancing:');
 disp(['Non-urban (0): ', num2str(sum(Y_clean == 0))]);
 disp(['Urban (1): ', num2str(sum(Y_clean == 1))]);
